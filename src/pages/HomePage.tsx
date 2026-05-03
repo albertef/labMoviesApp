@@ -1,7 +1,8 @@
+import { useState, useEffect } from "react"; // Changed
 import Header from "../components/HeaderMovieList";
 import Grid from "@mui/material/Grid";
 import MovieList from "../components/MovieList";
-import { BaseMovieListProps } from "../types/movieAppTypes";
+import { DiscoverMovieOverviewProps } from "../types/movieAppType"; // Changed
 
 const styles = {
   root: {
@@ -9,7 +10,23 @@ const styles = {
   },
 };
 
-const MovieListPage = ({ movies }: BaseMovieListProps) => {
+const MovieListPage = () => {
+  const [movies, setMovies] = useState<DiscoverMovieOverviewProps[]>([]); // Changed
+
+  useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1`,
+    )
+      .then((res) => res.json())
+      .then((json) => {
+        //console.log(json)
+        return json.results;
+      })
+      .then((movies) => {
+        setMovies(movies);
+      });
+  }, []);
+
   return (
     <Grid container sx={styles.root}>
       <Grid item xs={12}>

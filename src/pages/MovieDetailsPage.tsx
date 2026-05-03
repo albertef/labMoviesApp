@@ -1,4 +1,6 @@
-import React from "react";
+import { useState, useEffect } from "react"; // replace existing react import
+import { useParams } from "react-router-dom";
+import { MovieDetailsProps, MovieImage } from "../types/movieAppTypes"; // replace existing MoviePageProps
 import MovieHeader from "../components/HeaderMovie";
 import MovieDetails from "../components/MovieDetails";
 import Grid from "@mui/material/Grid";
@@ -18,7 +20,35 @@ const styles = {
   },
 };
 
-const MoviePage = ({ movie, images }: MoviePageProps) => {
+const MoviePage = () => {
+  const { id } = useParams();
+  const [movie, setMovie] = useState<MovieDetailsProps>();
+  const [images, setImages] = useState<MovieImage[]>([]);
+
+  useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`,
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((movie) => {
+        // console.log(movie)
+        setMovie(movie);
+      });
+  }, [id]);
+
+  useEffect(() => {
+    fetch(
+      `https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`,
+    )
+      .then((res) => res.json())
+      .then((json) => json.posters)
+      .then((images) => {
+        setImages(images);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       {movie ? (
