@@ -3,12 +3,14 @@ import { MovieDetailsProps, Review } from "../types/movieAppTypes";
 
 type MovieContextInterface = {
   favourites: number[];
+  playlist: number[];
   addToFavourites: (movie: MovieDetailsProps) => void;
   removeFromFavourites: (movie: MovieDetailsProps) => void;
   addReview: (movie: MovieDetailsProps, review: Review) => void; // NEW
 };
 const initialContextState: MovieContextInterface = {
   favourites: [],
+  playlist: [],
   addToFavourites: () => {},
   removeFromFavourites: () => {},
   addReview: (movie, review) => {
@@ -21,6 +23,7 @@ export const MoviesContext =
 
 const MoviesContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [favourites, setFavourites] = useState<number[]>([]);
+  const [playlist, setPlaylist] = useState<number[]>([]);
   const [myReviews, setMyReviews] = useState<Review[]>([]);
 
   const addToFavourites = useCallback((movie: MovieDetailsProps) => {
@@ -47,6 +50,7 @@ const MoviesContextProvider = ({ children }: { children: React.ReactNode }) => {
     <MoviesContext.Provider
       value={{
         favourites,
+        playlist,
         addToFavourites,
         removeFromFavourites,
         addReview, // NEW

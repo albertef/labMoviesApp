@@ -32,15 +32,11 @@ interface MovieCardProps {
   action: (m: MovieDetailsProps) => React.ReactNode;
 } // Add this
 
-interface MovieCardProps {
-  movie: MovieDetailsProps;
-  action: (m: MovieDetailsProps) => React.ReactNode;
-} // Add this
-
 const MovieCard = ({ movie, action }: MovieCardProps) => {
-  const { favourites } = useContext(MoviesContext); //NEW
+  const { favourites, playlist } = useContext(MoviesContext); //NEW
 
   const isFavourite = favourites.find((id) => id === movie.id) ? true : false; //NEW
+  const isInPlaylist = playlist.find((id) => id === movie.id) ? true : false; //NEW
 
   return (
     <Card sx={styles.card}>
