@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import React, { MouseEvent, useContext } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -15,10 +15,16 @@ import img from "../images/film-poster-placeholder.png";
 import { DiscoverMovieOverviewProps } from "../types/movieAppTypes";
 import { Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
+import { MoviesContext } from "../contexts/moviesContext";
 
 interface MovieCardProps {
   movie: DiscoverMovieOverviewProps;
   selectFavourite: (movieId: number) => void;
+}
+
+interface MovieCardProps {
+  //Removed selectFavourite property from interface
+  movie: DiscoverMovieOverviewProps;
 }
 
 const styles = {
@@ -29,16 +35,22 @@ const styles = {
   },
 };
 
-const MovieCard = ({ movie, selectFavourite }: MovieCardProps) => {
+const MovieCard = ({ movie, action }: MovieCardProps) => {
+  const { favourites, addToFavourites } = useContext(MoviesContext); //NEW
+
+  const isFavourite = favourites.find((id) => id === movie.id) ? true : false; //NEW
+
   const handleAddToFavourite = (e: MouseEvent<HTMLButtonElement>) => {
+    //NEW
     e.preventDefault();
-    selectFavourite(movie.id);
+    addToFavourites(movie);
   };
+
   return (
     <Card sx={styles.card}>
       <CardHeader
         avatar={
-          movie.favourite ? (
+          isFavourite ? ( //CHANGED
             <Avatar sx={styles.avatar}>
               <FavoriteIcon />
             </Avatar>
