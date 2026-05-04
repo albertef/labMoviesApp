@@ -1,15 +1,19 @@
 import React, { useState, useCallback } from "react";
-import { MovieDetailsProps } from "../types/movieAppTypes";
+import { MovieDetailsProps, Review } from "../types/movieAppTypes";
 
 type MovieContextInterface = {
   favourites: number[];
   addToFavourites: (movie: MovieDetailsProps) => void;
   removeFromFavourites: (movie: MovieDetailsProps) => void;
+  addReview: (movie: MovieDetailsProps, review: Review) => void; // NEW
 };
 const initialContextState: MovieContextInterface = {
   favourites: [],
   addToFavourites: () => {},
   removeFromFavourites: () => {},
+  addReview: (movie, review) => {
+    (movie.id, review);
+  }, // NEW
 };
 
 export const MoviesContext =
@@ -17,6 +21,7 @@ export const MoviesContext =
 
 const MoviesContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [favourites, setFavourites] = useState<number[]>([]);
+  const [myReviews, setMyReviews] = useState<Review[]>([]);
 
   const addToFavourites = useCallback((movie: MovieDetailsProps) => {
     setFavourites((prevFavourites) => {
@@ -33,12 +38,18 @@ const MoviesContextProvider = ({ children }: { children: React.ReactNode }) => {
     );
   }, []);
 
+  const addReview = (movie: MovieDetailsProps, review: Review) => {
+    // NEW
+    setMyReviews({ ...myReviews, [movie.id]: review });
+  };
+
   return (
     <MoviesContext.Provider
       value={{
         favourites,
         addToFavourites,
         removeFromFavourites,
+        addReview, // NEW
       }}
     >
       {children}
