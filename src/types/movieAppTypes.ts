@@ -16,7 +16,7 @@ export type DiscoverMovieOverviewProps = NonNullable<
 // Props interface for components that display a list of movies
 export type BaseMovieListProps = {
   movies: NonNullable<DiscoverMovieOverviewProps[]>;
-  selectFavourite: (movieId: number) => void; //add this
+  action: (m: DiscoverMovieOverviewProps) => React.ReactNode;
 };
 
 // Type for the API response when fetching detailed movie information
