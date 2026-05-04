@@ -5,6 +5,7 @@ type MovieContextInterface = {
   favourites: number[];
   playlist: number[];
   addToFavourites: (movie: MovieDetailsProps) => void;
+  addToPlaylist: (movie: MovieDetailsProps) => void;
   removeFromFavourites: (movie: MovieDetailsProps) => void;
   addReview: (movie: MovieDetailsProps, review: Review) => void; // NEW
 };
@@ -12,6 +13,7 @@ const initialContextState: MovieContextInterface = {
   favourites: [],
   playlist: [],
   addToFavourites: () => {},
+  addToPlaylist: () => {},
   removeFromFavourites: () => {},
   addReview: (movie, review) => {
     (movie.id, review);
@@ -46,6 +48,16 @@ const MoviesContextProvider = ({ children }: { children: React.ReactNode }) => {
     setMyReviews({ ...myReviews, [movie.id]: review });
   };
 
+  const addToPlaylist = useCallback((movie: MovieDetailsProps) => {
+    setPlaylist((prevPlaylist) => {
+      if (!prevPlaylist.includes(movie.id)) {
+        return [...prevPlaylist, movie.id];
+      }
+      console.log(prevPlaylist);
+      return prevPlaylist;
+    });
+  }, []);
+
   return (
     <MoviesContext.Provider
       value={{
@@ -53,6 +65,8 @@ const MoviesContextProvider = ({ children }: { children: React.ReactNode }) => {
         playlist,
         addToFavourites,
         removeFromFavourites,
+        addToPlaylist, // NEW
+
         addReview, // NEW
       }}
     >
