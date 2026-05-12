@@ -1,20 +1,11 @@
-import { useEffect, useState } from "react";
+import { useQuery, UseQueryResult } from "react-query";
 import { getMovie } from "../api/tmdb-api";
 import { MovieDetailsProps } from "../types/movieAppTypes";
 
-type MovieHookReturnType = [
-  MovieDetailsProps | undefined,
-  React.Dispatch<React.SetStateAction<MovieDetailsProps | undefined>>,
-];
-
-const useMovie = (id: string): MovieHookReturnType => {
-  const [movie, setMovie] = useState<MovieDetailsProps>();
-  useEffect(() => {
-    getMovie(id).then((movie) => {
-      setMovie(movie);
-    });
-  }, [id]);
-  return [movie, setMovie];
+const useMovie = (id: string): UseQueryResult<MovieDetailsProps, Error> => {
+  return useQuery<MovieDetailsProps, Error>(["movie", id], () => getMovie(id), {
+    enabled: Boolean(id),
+  });
 };
 
 export default useMovie;

@@ -1,23 +1,50 @@
-export const getMovies = () => {
+type TmdbMovieRecord = Record<string, unknown>;
+
+import {
+  DiscoverMovieOverviewProps,
+  MovieDetailsProps,
+} from "../types/movieAppTypes";
+
+export const getMovies = (): Promise<DiscoverMovieOverviewProps[]> => {
   return fetch(
     `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1`,
   )
     .then((res) => res.json())
-    .then((json) => json.results);
+    .then(
+      (json) =>
+        (json as { results: TmdbMovieRecord[] }).results.map((movie) => ({
+          ...(movie as TmdbMovieRecord),
+          favourite: false,
+        })) as DiscoverMovieOverviewProps[],
+    );
 };
 
-export const getUpcomingMovies = () => {
+export const getUpcomingMovies = (): Promise<DiscoverMovieOverviewProps[]> => {
   return fetch(
     `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1`,
   )
     .then((res) => res.json())
-    .then((json) => json.results);
+    .then(
+      (json) =>
+        (json as { results: TmdbMovieRecord[] }).results.map((movie) => ({
+          ...(movie as TmdbMovieRecord),
+          favourite: false,
+        })) as DiscoverMovieOverviewProps[],
+    );
 };
 
-export const getMovie = (id: string) => {
+export const getMovie = (id: string): Promise<MovieDetailsProps> => {
   return fetch(
     `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`,
-  ).then((res) => res.json());
+  )
+    .then((res) => res.json())
+    .then(
+      (movie) =>
+        ({
+          ...(movie as TmdbMovieRecord),
+          favourite: false,
+        }) as MovieDetailsProps,
+    );
 };
 
 export const getGenres = () => {

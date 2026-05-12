@@ -47,7 +47,7 @@
 - Screenshot: Network tab after two visits to HomePage shows no duplicate discovery request within stale time demonstrates caching.
 - Test: `QueryClient` config unit test or component smoke test passes demonstrates configuration is validated.
 
-### [ ] 2.0 Refactor API Data Fetching to React Query
+### [x] 2.0 Refactor API Data Fetching to React Query
 
 **Goal:** Replace manual `useEffect/useState` TMDB fetching with react-query hooks for discovery, movie details, and images.
 
@@ -127,16 +127,16 @@
 
 ### 2.0 Refactor API Data Fetching to React Query
 
-- [ ] 2.1 Add react-query hooks for TMDB discovery and movie details using `useQuery`.
+- [x] 2.1 Add react-query hooks for TMDB discovery and movie details using `useQuery`.
   - Files: `src/hooks/useMovie.ts`, `src/pages/HomePage.tsx`
   - Done when discovery and details useQuery returns are wired into pages.
-- [ ] 2.2 Preserve the existing API layer by reusing `src/api/tmdb-api.ts` helper functions in query functions.
+- [x] 2.2 Preserve the existing API layer by reusing `src/api/tmdb-api.ts` helper functions in query functions.
   - Files: `src/api/tmdb-api.ts`, `src/hooks/useMovie.ts`, `src/pages/HomePage.tsx`
   - Done when query functions call existing API helpers instead of new fetch logic.
-- [ ] 2.3 Add loading and error handling to HomePage and MovieDetailsPage while query data loads.
+- [x] 2.3 Add loading and error handling to HomePage and MovieDetailsPage while query data loads.
   - Files: `src/pages/HomePage.tsx`, `src/pages/MovieDetailsPage.tsx`
   - Done when pages render fallback UI on loading and an error message on failure.
-- [ ] 2.4 Confirm `MovieDetailsPage` continues to render movie details and review components after refactor.
+- [x] 2.4 Confirm `MovieDetailsPage` continues to render movie details and review components after refactor.
   - Files: `src/pages/MovieDetailsPage.tsx`
   - Done when movie details page is functional and no runtime fetch logic remains in `useEffect`.
 

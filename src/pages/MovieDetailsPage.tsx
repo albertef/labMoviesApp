@@ -5,16 +5,22 @@ import PageTemplate from "../components/TemplateMoviePage";
 
 const MovieDetailsPage = () => {
   const { id } = useParams();
-  const [movie] = useMovie(id ?? "");
+  const { data: movie, isLoading, isError, error } = useMovie(id ?? "");
+
+  if (isLoading) {
+    return <p>Loading movie details...</p>;
+  }
+
+  if (isError) {
+    return <p>Error loading movie: {error?.message ?? "Unknown error"}</p>;
+  }
 
   return (
     <>
       {movie ? (
-        <>
-          <PageTemplate movie={movie}>
-            <MovieDetails {...movie} />
-          </PageTemplate>
-        </>
+        <PageTemplate movie={movie}>
+          <MovieDetails {...movie} />
+        </PageTemplate>
       ) : (
         <p>Waiting for movie details</p>
       )}

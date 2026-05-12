@@ -1,13 +1,29 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "react-query";
+import { useEffect, useState } from "react";
 import PageTemplate from "../components/TemplateMovieListPage";
-import { DiscoverMovieOverviewProps } from "../types/movieAppTypes"; // Changed
+import { DiscoverMovieOverviewProps } from "../types/movieAppTypes";
 import { getMovies } from "../api/tmdb-api";
 
 const HomePage = () => {
-  const [movies, setMovies] = useState<DiscoverMovieOverviewProps[]>([]); // Changed
+  const {
+    data: fetchedMovies = [],
+    isLoading,
+    isError,
+    error,
+  } = useQuery<DiscoverMovieOverviewProps[], Error>(
+    "discover-movies",
+    getMovies,
+  );
+
+  const [movies, setMovies] = useState<DiscoverMovieOverviewProps[]>([]);
+
+  useEffect(() => {
+    setMovies(fetchedMovies);
+  }, [fetchedMovies]);
+
   const favourites = movies.filter((m) => m.favourite);
   localStorage.setItem("favourites", JSON.stringify(favourites));
-  // New function
+
   const addToFavourites = (movieId: number) => {
     const updatedMovies = movies.map((m: DiscoverMovieOverviewProps) =>
       m.id === movieId ? { ...m, favourite: true } : m,
@@ -15,11 +31,13 @@ const HomePage = () => {
     setMovies(updatedMovies);
   };
 
-  useEffect(() => {
-    getMovies().then((movies) => {
-      setMovies(movies);
-    });
-  }, []);
+  if (isLoading) {
+    return <p>Loading movies...</p>;
+  }
+
+  if (isError) {
+    return <p>Error loading movies: {error?.message ?? "Unknown error"}</p>;
+  }
 
   return (
     <PageTemplate
