@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Paper from "@mui/material/Paper";
@@ -26,8 +26,10 @@ const MovieHeader = (movie: MovieDetailsProps) => {
   const [isFavourite, setIsFavourite] = useState(false);
 
   useEffect(() => {
-    const favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
-    const isFav = favourites.some((fav: any) => fav.id === movie.id);
+    const favourites = JSON.parse(
+      localStorage.getItem("favourites") || "[]",
+    ) as Array<{ id: number }>;
+    const isFav = favourites.some((fav) => fav.id === movie.id);
     setIsFavourite(isFav);
   }, [movie.id]);
 

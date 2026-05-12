@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from "react"; //update existing import
+import { useState, useEffect, ChangeEvent } from "react";
 import { FilterOption } from "../types/movieAppTypes";
 import { SelectChangeEvent } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -41,7 +41,7 @@ const FilterMoviesCard = ({
 
   useEffect(() => {
     getGenres().then((allGenres) => {
-      setGenres([genres[0], ...allGenres]);
+      setGenres((currentGenres) => [currentGenres[0], ...allGenres]);
     });
   }, []);
 

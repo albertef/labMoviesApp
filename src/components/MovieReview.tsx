@@ -1,4 +1,6 @@
-import { MovieReviewProps } from "../types/movieAppTypes";
+import { Review } from "../types/movieAppTypes";
+
+type MovieReviewProps = Review;
 
 const MovieReview = (props: MovieReviewProps) => {
   return (
