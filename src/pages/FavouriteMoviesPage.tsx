@@ -1,5 +1,7 @@
 import PageTemplate from "../components/TemplateMovieListPage";
-import { useMoviesContext } from "../contexts/MoviesContext";
+import { useMoviesContext } from "../contexts/useMoviesContext";
+import RemoveFromFavourites from "../components/CardIcons/RemoveFromFavourites";
+import WriteReview from "../components/CardIcons/WriteReview";
 
 const FavouriteMoviesPage = () => {
   const { favourites, removeFavourite } = useMoviesContext();
@@ -8,7 +10,12 @@ const FavouriteMoviesPage = () => {
     <PageTemplate
       title="Favourite Movies"
       movies={favourites}
-      selectFavourite={removeFavourite}
+      renderActions={(movie) => (
+        <>
+          <RemoveFromFavourites movie={movie} onRemove={removeFavourite} />
+          <WriteReview movie={movie} />
+        </>
+      )}
     />
   );
 };

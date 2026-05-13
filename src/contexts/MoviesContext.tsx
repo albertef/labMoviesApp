@@ -1,10 +1,6 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import {
-  DiscoverMovieOverviewProps,
-  MoviesContextValue,
-} from "../types/movieAppTypes";
-
-const MoviesContext = createContext<MoviesContextValue | undefined>(undefined);
+import { useEffect, useState } from "react";
+import { DiscoverMovieOverviewProps } from "../types/movieAppTypes";
+import { MoviesContext } from "./MovieContextImpl";
 
 export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
   const [favourites, setFavourites] = useState<DiscoverMovieOverviewProps[]>(
@@ -33,20 +29,9 @@ export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
   const isFavourite = (movieId: number) =>
     favourites.some((item) => item.id === movieId);
 
-  const value = useMemo(
-    () => ({ favourites, addFavourite, removeFavourite, isFavourite }),
-    [favourites],
-  );
+  const value = { favourites, addFavourite, removeFavourite, isFavourite };
 
   return (
     <MoviesContext.Provider value={value}>{children}</MoviesContext.Provider>
   );
-};
-
-export const useMoviesContext = () => {
-  const context = useContext(MoviesContext);
-  if (!context) {
-    throw new Error("useMoviesContext must be used within MoviesProvider");
-  }
-  return context;
 };

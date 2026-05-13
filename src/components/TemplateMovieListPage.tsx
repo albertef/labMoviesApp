@@ -23,6 +23,7 @@ const MovieListPageTemplate = ({
   movies,
   title,
   selectFavourite,
+  renderActions,
 }: MovieListPageTemplateProps) => {
   const [titleFilter, setTitleFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
@@ -55,6 +56,7 @@ const MovieListPageTemplate = ({
           <MovieList
             movies={displayedMovies}
             selectFavourite={selectFavourite}
+            renderActions={renderActions}
           />
         </Grid>
       </Grid>

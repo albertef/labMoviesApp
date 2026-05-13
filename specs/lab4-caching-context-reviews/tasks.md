@@ -79,7 +79,7 @@
 - Screenshot: Favourites page loads with movies selected earlier demonstrates localStorage restore.
 - Test: `MoviesContext` provider unit test passes demonstrates add/remove and persistence.
 
-### [ ] 4.0 Refactor Movie Card Actions to Be Configurable
+### [x] 4.0 Refactor Movie Card Actions to Be Configurable
 
 **Goal:** Convert `MovieCard` to accept configurable action renderers so pages can render different buttons without duplicating the card component.
 
@@ -94,6 +94,22 @@
 - Screenshot: HomePage movie card has add favourite button and no write-review button demonstrates page-specific actions.
 - Screenshot: FavouriteMoviesPage movie card has remove and write-review buttons demonstrates configurable actions.
 - Test: `MovieCard` action-rendering unit test passes demonstrates render-prop composition.
+
+- [x] 4.1 Update `src/components/MovieCard.tsx` to accept optional render props or action components instead of a single `selectFavourite` prop.
+  - Files: `src/components/MovieCard.tsx`, `src/types/movieAppTypes.ts`
+  - Done when card renders actions passed from parent pages.
+- [x] 4.2 Refactor `src/components/MovieList.tsx` to supply action renderers from page props.
+  - Files: `src/components/MovieList.tsx`, `src/components/TemplateMovieListPage.tsx`
+  - Done when list items call `MovieCard` with page-specific action props.
+- [x] 4.3 Add page-specific action components: AddToFavourites, RemoveFromFavourites, WriteReview.
+  - Files: `src/components/CardIcons/AddToFavourites.tsx`, `src/components/CardIcons/RemoveFromFavourites.tsx`, `src/components/CardIcons/WriteReview.tsx`
+  - Done when each action component renders the correct button and triggers the expected callback.
+- [x] 4.4 Wire HomePage to render `AddToFavourites` buttons, and wire FavouriteMoviesPage to render `RemoveFromFavourites` and `WriteReview` buttons.
+  - Files: `src/pages/HomePage.tsx`, `src/pages/FavouriteMoviesPage.tsx`, `src/components/TemplateMovieListPage.tsx`
+  - Done when page-specific buttons appear on the correct pages.
+- [x] 4.5 Add a review navigation handler from favourites card action to `MovieReviewPage` route.
+  - Files: `src/components/CardIcons/WriteReview.tsx`, `src/pages/FavouriteMoviesPage.tsx`
+  - Done when clicking write-review navigates to the review page for that movie.
 
 ### [ ] 5.0 Add Review Form Page, Validation, and Review Storage
 

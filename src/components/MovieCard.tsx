@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import { MouseEvent, ReactNode } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -18,7 +18,8 @@ import Avatar from "@mui/material/Avatar";
 
 interface MovieCardProps {
   movie: DiscoverMovieOverviewProps;
-  selectFavourite: (movieId: number) => void;
+  selectFavourite?: (movieId: number) => void;
+  renderActions?: (movie: DiscoverMovieOverviewProps) => ReactNode;
 }
 
 const styles = {
@@ -29,10 +30,14 @@ const styles = {
   },
 };
 
-const MovieCard = ({ movie, selectFavourite }: MovieCardProps) => {
+const MovieCard = ({
+  movie,
+  selectFavourite,
+  renderActions,
+}: MovieCardProps) => {
   const handleAddToFavourite = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    selectFavourite(movie.id);
+    selectFavourite?.(movie.id);
   };
   return (
     <Card sx={styles.card}>
@@ -75,12 +80,16 @@ const MovieCard = ({ movie, selectFavourite }: MovieCardProps) => {
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton
-          aria-label="add to favourites"
-          onClick={handleAddToFavourite}
-        >
-          <FavoriteIcon color="primary" fontSize="large" />
-        </IconButton>
+        {renderActions ? (
+          renderActions(movie)
+        ) : (
+          <IconButton
+            aria-label="add to favourites"
+            onClick={handleAddToFavourite}
+          >
+            <FavoriteIcon color="primary" fontSize="large" />
+          </IconButton>
+        )}
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...

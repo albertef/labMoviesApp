@@ -2,7 +2,8 @@ import { useQuery } from "react-query";
 import PageTemplate from "../components/TemplateMovieListPage";
 import { DiscoverMovieOverviewProps } from "../types/movieAppTypes";
 import { getMovies } from "../api/tmdb-api";
-import { useMoviesContext } from "../contexts/MoviesContext";
+import { useMoviesContext } from "../contexts/useMoviesContext";
+import AddToFavourites from "../components/CardIcons/AddToFavourites";
 
 const HomePage = () => {
   const { addFavourite, isFavourite } = useMoviesContext();
@@ -41,7 +42,9 @@ const HomePage = () => {
     <PageTemplate
       title="Discover Movies"
       movies={movies}
-      selectFavourite={addToFavourites}
+      renderActions={(movie) => (
+        <AddToFavourites movie={movie} onAdd={addToFavourites} />
+      )}
     />
   );
 };

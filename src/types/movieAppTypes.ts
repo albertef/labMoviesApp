@@ -14,9 +14,12 @@ export type DiscoverMovieOverviewProps = NonNullable<
 };
 
 // Props interface for components that display a list of movies
+import { ReactNode } from "react";
+
 export type BaseMovieListProps = {
   movies: NonNullable<DiscoverMovieOverviewProps[]>;
-  selectFavourite: (movieId: number) => void; //add this
+  selectFavourite?: (movieId: number) => void;
+  renderActions?: (movie: DiscoverMovieOverviewProps) => ReactNode;
 };
 
 export type MoviesContextValue = {
