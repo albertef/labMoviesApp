@@ -27,6 +27,9 @@ export type MoviesContextValue = {
   addFavourite: (movie: DiscoverMovieOverviewProps) => void;
   removeFavourite: (movieId: number) => void;
   isFavourite: (movieId: number) => boolean;
+  reviews: LocalReview[];
+  addReview: (review: LocalReview) => void;
+  getReviewsForMovie: (movieId: number) => LocalReview[];
 };
 
 // Type for the API response when fetching detailed movie information
@@ -60,3 +63,8 @@ export type MovieReviewsProps =
   paths["/3/movie/{movie_id}/reviews"]["get"]["responses"][200]["content"]["application/json"];
 
 export type Review = NonNullable<MovieReviewsProps["results"]>[number];
+
+export type LocalReview = Review & {
+  movieId: number;
+  rating: number;
+};

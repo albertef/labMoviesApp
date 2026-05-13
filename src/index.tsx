@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import MoviePage from "./pages/MovieDetailsPage";
 import FavouriteMoviesPage from "./pages/FavouriteMoviesPage";
-import MovieReviewPage from "./pages/MovieReviewPage";
+import AddMovieReviewPage from "./pages/AddMovieReviewPage";
 import SiteHeader from "./components/SiteHeader";
 import UpcomingMoviesPage from "./pages/UpcomingMovies";
 import { QueryClientProvider, QueryClient } from "react-query";
@@ -32,7 +32,7 @@ const App = () => {
           <SiteHeader />
           <Routes>
             <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-            <Route path="/reviews/:id" element={<MovieReviewPage />} />
+            <Route path="/reviews/:id" element={<AddMovieReviewPage />} />
             <Route
               path="/movies/favourites"
               element={<FavouriteMoviesPage />}

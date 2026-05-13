@@ -1,11 +1,13 @@
 import { useState } from "react";
+import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MonetizationIcon from "@mui/icons-material/MonetizationOn";
 import StarRate from "@mui/icons-material/StarRate";
 import Typography from "@mui/material/Typography";
-import { MovieDetailsProps } from "../types/movieAppTypes";
+import { useMoviesContext } from "../contexts/useMoviesContext";
+import { LocalReview, MovieDetailsProps } from "../types/movieAppTypes";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
@@ -33,6 +35,8 @@ const styles = {
 
 const MovieDetails = (movie: MovieDetailsProps) => {
   const [drawerOpen, setDrawerOpen] = useState(false); // New
+  const { getReviewsForMovie } = useMoviesContext();
+  const localReviews = getReviewsForMovie(movie.id);
 
   return (
     <>
@@ -43,6 +47,25 @@ const MovieDetails = (movie: MovieDetailsProps) => {
       <Typography variant="h6" component="p">
         {movie.overview}
       </Typography>
+
+      {localReviews.length > 0 && (
+        <Paper sx={{ p: 2, mb: 2 }}>
+          <Typography variant="h6" component="h4" sx={{ mb: 1 }}>
+            Your Reviews
+          </Typography>
+          {localReviews.map((review: LocalReview) => (
+            <Box key={review.id} sx={{ mb: 2 }}>
+              <Typography variant="subtitle1" component="p">
+                {review.author} — Rating:{" "}
+                {`${review.author_details?.rating ?? review.rating}`}
+              </Typography>
+              <Typography variant="body2" component="p">
+                {review.content}
+              </Typography>
+            </Box>
+          ))}
+        </Paper>
+      )}
 
       <Paper component="ul" sx={styles.chipSet}>
         <li>

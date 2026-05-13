@@ -20,7 +20,7 @@ const styles = {
 
 interface TemplateMoviePageProps {
   movie: MovieDetailsProps;
-  children: React.ReactElement;
+  children: React.ReactNode;
 }
 
 const TemplateMoviePage = ({ movie, children }: TemplateMoviePageProps) => {

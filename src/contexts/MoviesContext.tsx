@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { DiscoverMovieOverviewProps } from "../types/movieAppTypes";
+import {
+  DiscoverMovieOverviewProps,
+  LocalReview,
+} from "../types/movieAppTypes";
 import { MoviesContext } from "./MovieContextImpl";
 
 export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
@@ -10,9 +13,18 @@ export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
     },
   );
 
+  const [reviews, setReviews] = useState<LocalReview[]>(() => {
+    const stored = localStorage.getItem("reviews");
+    return stored ? (JSON.parse(stored) as LocalReview[]) : [];
+  });
+
   useEffect(() => {
     localStorage.setItem("favourites", JSON.stringify(favourites));
   }, [favourites]);
+
+  useEffect(() => {
+    localStorage.setItem("reviews", JSON.stringify(reviews));
+  }, [reviews]);
 
   const addFavourite = (movie: DiscoverMovieOverviewProps) => {
     setFavourites((current) =>
@@ -29,7 +41,22 @@ export const MoviesProvider = ({ children }: { children: React.ReactNode }) => {
   const isFavourite = (movieId: number) =>
     favourites.some((item) => item.id === movieId);
 
-  const value = { favourites, addFavourite, removeFavourite, isFavourite };
+  const addReview = (review: LocalReview) => {
+    setReviews((current) => [...current, review]);
+  };
+
+  const getReviewsForMovie = (movieId: number) =>
+    reviews.filter((review) => review.movieId === movieId);
+
+  const value = {
+    favourites,
+    addFavourite,
+    removeFavourite,
+    isFavourite,
+    reviews,
+    addReview,
+    getReviewsForMovie,
+  };
 
   return (
     <MoviesContext.Provider value={value}>{children}</MoviesContext.Provider>

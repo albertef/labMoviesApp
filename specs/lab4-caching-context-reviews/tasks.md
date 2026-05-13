@@ -111,7 +111,7 @@
   - Files: `src/components/CardIcons/WriteReview.tsx`, `src/pages/FavouriteMoviesPage.tsx`
   - Done when clicking write-review navigates to the review page for that movie.
 
-### [ ] 5.0 Add Review Form Page, Validation, and Review Storage
+### [x] 5.0 Add Review Form Page, Validation, and Review Storage
 
 **Goal:** Add a review form page for favourite movies using react-hook-form, validate input, submit reviews into app state, and display reviews appropriately.
 
@@ -126,6 +126,22 @@
 - Screenshot: Review form page showing validation error message after invalid submit demonstrates feedback.
 - Screenshot: Submitted review visible on movie details or review page demonstrates state flow.
 - Test: `ReviewForm` validation unit test passes demonstrates form handling.
+
+- [x] 5.1 Create `src/pages/AddMovieReviewPage.tsx` with a form route at `/reviews/:id`.
+  - Files: `src/pages/AddMovieReviewPage.tsx`, `src/index.tsx`
+  - Done when the route exists and the page renders a form component.
+- [x] 5.2 Add `src/components/ReviewForm/ReviewForm.tsx` using react-hook-form and model validation.
+  - Files: `src/components/ReviewForm/ReviewForm.tsx`, `src/types/movieAppTypes.ts`
+  - Done when the form accepts rating and text and validates required fields.
+- [x] 5.3 Store submitted reviews in app state via `MoviesContext` or a dedicated review slice.
+  - Files: `src/contexts/MoviesContext.tsx`, `src/types/movieAppTypes.ts`
+  - Done when submitted review objects are added to context state.
+- [x] 5.4 Show clear submit feedback and navigate user after successful review submission.
+  - Files: `src/components/ReviewForm/ReviewForm.tsx`, `src/pages/AddMovieReviewPage.tsx`
+  - Done when successful submission displays confirmation and optionally redirects.
+- [x] 5.5 Display reviews on the movie details page or review page if the app already uses review excerpts.
+  - Files: `src/pages/MovieDetailsPage.tsx`, `src/components/MovieDetails.tsx`
+  - Done when the submitted review appears in the UI after submission.
 
 ## Detailed Subtasks
 

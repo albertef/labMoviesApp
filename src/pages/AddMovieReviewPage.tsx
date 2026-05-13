@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PageTemplate from "../components/TemplateMoviePage";
 import ReviewForm, {
   ReviewFormValues,
@@ -6,9 +6,11 @@ import ReviewForm, {
 import useMovie from "../hooks/useMovie";
 import { useMoviesContext } from "../contexts/useMoviesContext";
 import { LocalReview } from "../types/movieAppTypes";
+import Alert from "@mui/material/Alert";
 
-const MovieReviewPage: React.FC = () => {
+const AddMovieReviewPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { addReview } = useMoviesContext();
   const { data: movie, isLoading, isError, error } = useMovie(id ?? "");
 
@@ -39,13 +41,19 @@ const MovieReviewPage: React.FC = () => {
     };
 
     addReview(review);
+    navigate(`/movies/${movie.id}`, {
+      state: { reviewSubmitted: true },
+    });
   };
 
   return (
     <PageTemplate movie={movie}>
+      <Alert severity="info" sx={{ mb: 2 }}>
+        Submit a review for <strong>{movie.title}</strong>.
+      </Alert>
       <ReviewForm onSubmit={handleSubmit} />
     </PageTemplate>
   );
 };
 
-export default MovieReviewPage;
+export default AddMovieReviewPage;
