@@ -63,7 +63,7 @@
 - Screenshot: Movie details page still renders after refactor demonstrates data flow continuity.
 - Test: `useMovie` refactor unit test passes demonstrates hook behavior.
 
-### [ ] 3.0 Add Shared Favourites Context and Migrate State
+### [x] 3.0 Add Shared Favourites Context and Migrate State
 
 **Goal:** Replace page-local favourites logic with an app-wide React Context that persists favourites across navigation and syncs to localStorage.
 
@@ -142,19 +142,19 @@
 
 ### 3.0 Add Shared Favourites Context and Migrate State
 
-- [ ] 3.1 Create `src/contexts/MoviesContext.tsx` with favourites state, add/remove methods, and localStorage sync.
+- [x] 3.1 Create `src/contexts/MoviesContext.tsx` with favourites state, add/remove methods, and localStorage sync.
   - Files: `src/contexts/MoviesContext.tsx`, `src/types/movieAppTypes.ts`
   - Done when provider exposes favourites state and actions.
-- [ ] 3.2 Wrap the app in `MoviesContext.Provider` in `src/index.tsx` alongside `QueryClientProvider`.
+- [x] 3.2 Wrap the app in `MoviesContext.Provider` in `src/index.tsx` alongside `QueryClientProvider`.
   - Files: `src/index.tsx`
   - Done when the provider surrounds routes and app components.
-- [ ] 3.3 Refactor `HomePage.tsx` to use favourites context actions instead of local state `addToFavourites` and localStorage writes.
+- [x] 3.3 Refactor `HomePage.tsx` to use favourites context actions instead of local state `addToFavourites` and localStorage writes.
   - Files: `src/pages/HomePage.tsx`, `src/components/TemplateMovieListPage.tsx`
   - Done when home page renders favourite state from context and updates via context handlers.
-- [ ] 3.4 Refactor `FavouriteMoviesPage.tsx` to load favourites from context instead of localStorage formatting.
+- [x] 3.4 Refactor `FavouriteMoviesPage.tsx` to load favourites from context instead of localStorage formatting.
   - Files: `src/pages/FavouriteMoviesPage.tsx`
   - Done when favourites page uses context state and stays in sync with the home page.
-- [ ] 3.5 Add context-driven behaviour to `TemplateMovieListPage` or `MovieList` if needed to pass favourite action handlers cleanly.
+- [x] 3.5 Add context-driven behaviour to `TemplateMovieListPage` or `MovieList` if needed to pass favourite action handlers cleanly.
   - Files: `src/components/TemplateMovieListPage.tsx`, `src/components/MovieList.tsx`
   - Done when page components pass context actions through to cards.
 

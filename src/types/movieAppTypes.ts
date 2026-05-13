@@ -19,6 +19,13 @@ export type BaseMovieListProps = {
   selectFavourite: (movieId: number) => void; //add this
 };
 
+export type MoviesContextValue = {
+  favourites: DiscoverMovieOverviewProps[];
+  addFavourite: (movie: DiscoverMovieOverviewProps) => void;
+  removeFavourite: (movieId: number) => void;
+  isFavourite: (movieId: number) => boolean;
+};
+
 // Type for the API response when fetching detailed movie information
 export type MovieDetailsProps =
   paths["/3/movie/{movie_id}"]["get"]["responses"][200]["content"]["application/json"] & {

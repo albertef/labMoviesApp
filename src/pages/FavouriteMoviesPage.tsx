@@ -1,15 +1,14 @@
 import PageTemplate from "../components/TemplateMovieListPage";
+import { useMoviesContext } from "../contexts/MoviesContext";
 
 const FavouriteMoviesPage = () => {
-  const toDo = () => true;
-  // Get movies from local storage.
-  const movies = JSON.parse(localStorage.getItem("favourites") || "[]");
+  const { favourites, removeFavourite } = useMoviesContext();
 
   return (
     <PageTemplate
       title="Favourite Movies"
-      movies={movies}
-      selectFavourite={toDo}
+      movies={favourites}
+      selectFavourite={removeFavourite}
     />
   );
 };

@@ -8,6 +8,7 @@ import SiteHeader from "./components/SiteHeader";
 import UpcomingMoviesPage from "./pages/UpcomingMovies";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { MoviesProvider } from "./contexts/MoviesContext";
 
 // Query client defaults are set for Lab 4 caching behavior:
 // - staleTime keeps data fresh for 6 minutes during navigation
@@ -26,18 +27,23 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <SiteHeader />
-        <Routes>
-          <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-          <Route path="/reviews/:id" element={<MovieReviewPage />} />
-          <Route path="/movies/favourites" element={<FavouriteMoviesPage />} />
-          <Route path="/movies/:id" element={<MoviePage />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <MoviesProvider>
+        <BrowserRouter>
+          <SiteHeader />
+          <Routes>
+            <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
+            <Route path="/reviews/:id" element={<MovieReviewPage />} />
+            <Route
+              path="/movies/favourites"
+              element={<FavouriteMoviesPage />}
+            />
+            <Route path="/movies/:id" element={<MoviePage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </BrowserRouter>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </MoviesProvider>
     </QueryClientProvider>
   );
 };

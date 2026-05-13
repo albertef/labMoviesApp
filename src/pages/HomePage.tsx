@@ -1,10 +1,12 @@
 import { useQuery } from "react-query";
-import { useEffect, useState } from "react";
 import PageTemplate from "../components/TemplateMovieListPage";
 import { DiscoverMovieOverviewProps } from "../types/movieAppTypes";
 import { getMovies } from "../api/tmdb-api";
+import { useMoviesContext } from "../contexts/MoviesContext";
 
 const HomePage = () => {
+  const { addFavourite, isFavourite } = useMoviesContext();
+
   const {
     data: fetchedMovies = [],
     isLoading,
@@ -15,20 +17,16 @@ const HomePage = () => {
     getMovies,
   );
 
-  const [movies, setMovies] = useState<DiscoverMovieOverviewProps[]>([]);
-
-  useEffect(() => {
-    setMovies(fetchedMovies);
-  }, [fetchedMovies]);
-
-  const favourites = movies.filter((m) => m.favourite);
-  localStorage.setItem("favourites", JSON.stringify(favourites));
+  const movies = fetchedMovies.map((movie) => ({
+    ...movie,
+    favourite: isFavourite(movie.id),
+  }));
 
   const addToFavourites = (movieId: number) => {
-    const updatedMovies = movies.map((m: DiscoverMovieOverviewProps) =>
-      m.id === movieId ? { ...m, favourite: true } : m,
-    );
-    setMovies(updatedMovies);
+    const movie = fetchedMovies.find((m) => m.id === movieId);
+    if (movie) {
+      addFavourite(movie);
+    }
   };
 
   if (isLoading) {
