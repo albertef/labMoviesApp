@@ -20,6 +20,14 @@ const MovieDetailsPage = () => {
     return <p>Error loading movie: {error?.message ?? "Unknown error"}</p>;
   }
 
+  const cast =
+    credits?.cast?.map((actor) => ({
+      id: actor.id,
+      name: actor.name ?? "Unknown",
+      character: actor.character ?? "",
+      profile_path: actor.profile_path ?? null,
+    })) || [];
+
   return (
     <>
       {movie ? (
@@ -29,7 +37,7 @@ const MovieDetailsPage = () => {
               Review submitted successfully.
             </Alert>
           )}
-          <MovieDetails {...movie} cast={credits?.cast || []} />
+          <MovieDetails {...movie} cast={cast} />
         </PageTemplate>
       ) : (
         <p>Waiting for movie details</p>

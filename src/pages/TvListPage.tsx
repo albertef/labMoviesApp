@@ -1,11 +1,13 @@
 import { useTvList } from "../hooks/useMovie";
-import { DiscoverTvOverviewProps } from "../types/movieAppTypes";
+import { DiscoverMovieOverviewProps } from "../types/movieAppTypes";
 import Header from "../components/HeaderMovieList";
 import Grid from "@mui/material/Grid";
 import MovieList from "../components/MovieList";
+import { useMoviesContext } from "../contexts/useMoviesContext";
 
 const TvListPage = () => {
   const { data: tvSeries, error, isLoading, isError } = useTvList();
+  const { addFavourite, isFavourite } = useMoviesContext();
 
   if (isLoading) {
     return <div>Loading TV series...</div>;
@@ -17,10 +19,25 @@ const TvListPage = () => {
 
   // Adapt TV series to movie-like structure for MovieList
   const adaptedTvSeries = tvSeries?.map((tv) => ({
-    ...tv,
-    title: tv.name, // TV has 'name' instead of 'title'
-    favourite: false,
-  })) as DiscoverTvOverviewProps[];
+    id: tv.id,
+    title: tv.name,
+    overview: tv.overview,
+    poster_path: tv.poster_path,
+    release_date: tv.first_air_date ?? "",
+    vote_average: tv.vote_average,
+    favourite: isFavourite(tv.id),
+    adult: false,
+    video: false,
+    original_title: tv.name,
+    original_language: tv.original_language ?? "en",
+  })) as DiscoverMovieOverviewProps[];
+
+  const handleAddFavourite = (movieId: number) => {
+    const tv = adaptedTvSeries?.find((item) => item.id === movieId);
+    if (tv) {
+      addFavourite(tv);
+    }
+  };
 
   return (
     <Grid container>
@@ -31,6 +48,7 @@ const TvListPage = () => {
         <MovieList
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           movies={(adaptedTvSeries as any) || []}
+          selectFavourite={handleAddFavourite}
           linkPath={(movie) => `/tv/${movie.id}`}
         />
       </Grid>
