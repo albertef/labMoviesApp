@@ -85,6 +85,19 @@ export type ActorDetailsProps =
 export type ActorCreditsProps =
   paths["/3/person/{person_id}/movie_credits"]["get"]["responses"][200]["content"]["application/json"];
 
+export type MovieCreditsProps =
+  paths["/3/movie/{movie_id}/credits"]["get"]["responses"][200]["content"]["application/json"];
+
+export type TvCreditsProps =
+  paths["/3/tv/{series_id}/credits"]["get"]["responses"][200]["content"]["application/json"];
+
+export type CastMember = {
+  id: number;
+  name: string;
+  character: string;
+  profile_path: string | null;
+};
+
 export type LocalReview = Review & {
   movieId: number;
   rating: number;

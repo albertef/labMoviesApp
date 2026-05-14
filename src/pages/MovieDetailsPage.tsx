@@ -2,6 +2,7 @@ import { useLocation, useParams } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import MovieDetails from "../components/MovieDetails";
 import useMovie from "../hooks/useMovie";
+import { useMovieCredits } from "../hooks/useMovie";
 import PageTemplate from "../components/TemplateMoviePage";
 
 const MovieDetailsPage = () => {
@@ -9,6 +10,7 @@ const MovieDetailsPage = () => {
   const location = useLocation();
   const state = location.state as { reviewSubmitted?: boolean } | null;
   const { data: movie, isLoading, isError, error } = useMovie(id ?? "");
+  const { data: credits } = useMovieCredits(id ?? "");
 
   if (isLoading) {
     return <p>Loading movie details...</p>;
@@ -27,7 +29,7 @@ const MovieDetailsPage = () => {
               Review submitted successfully.
             </Alert>
           )}
-          <MovieDetails {...movie} />
+          <MovieDetails {...movie} cast={credits?.cast || []} />
         </PageTemplate>
       ) : (
         <p>Waiting for movie details</p>

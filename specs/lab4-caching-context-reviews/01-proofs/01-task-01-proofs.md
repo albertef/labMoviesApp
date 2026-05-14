@@ -88,7 +88,7 @@ export type ActorCreditsProps = {
 ```typescript
 export const getTvSeries = (): Promise<DiscoverTvOverviewProps[]> => {
   return fetch(
-    `https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    `https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}`,
   )
     .then((response) => {
       if (!response.ok)
@@ -100,35 +100,34 @@ export const getTvSeries = (): Promise<DiscoverTvOverviewProps[]> => {
 
 export const getTv = (id: string | number): Promise<TvDetailsProps> => {
   return fetch(
-    `https://api.themoviedb.org/3/tv/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
-  )
-    .then((response) => {
-      if (!response.ok)
-        throw new Error(`Failed to fetch TV details. ${response.statusText}`);
-      return response.json();
-    });
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`,
+  ).then((response) => {
+    if (!response.ok)
+      throw new Error(`Failed to fetch TV details. ${response.statusText}`);
+    return response.json();
+  });
 };
 
 export const getActor = (id: string | number): Promise<ActorDetailsProps> => {
   return fetch(
-    `https://api.themoviedb.org/3/person/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
-  )
-    .then((response) => {
-      if (!response.ok)
-        throw new Error(`Failed to fetch actor details. ${response.statusText}`);
-      return response.json();
-    });
+    `https://api.themoviedb.org/3/person/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`,
+  ).then((response) => {
+    if (!response.ok)
+      throw new Error(`Failed to fetch actor details. ${response.statusText}`);
+    return response.json();
+  });
 };
 
-export const getActorCredits = (id: string | number): Promise<ActorCreditsProps> => {
+export const getActorCredits = (
+  id: string | number,
+): Promise<ActorCreditsProps> => {
   return fetch(
-    `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${import.meta.env.VITE_TMDB_KEY}`
-  )
-    .then((response) => {
-      if (!response.ok)
-        throw new Error(`Failed to fetch actor credits. ${response.statusText}`);
-      return response.json();
-    });
+    `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${import.meta.env.VITE_TMDB_KEY}`,
+  ).then((response) => {
+    if (!response.ok)
+      throw new Error(`Failed to fetch actor credits. ${response.statusText}`);
+    return response.json();
+  });
 };
 ```
 
@@ -141,20 +140,31 @@ export const getActorCredits = (id: string | number): Promise<ActorCreditsProps>
 **Snippet:**
 
 ```typescript
-export const useTvList = (): UseQueryResult<DiscoverTvOverviewProps[], Error> => {
+export const useTvList = (): UseQueryResult<
+  DiscoverTvOverviewProps[],
+  Error
+> => {
   return useQuery<DiscoverTvOverviewProps[], Error>("tvSeries", getTvSeries);
 };
 
-export const useTvDetails = (id: string): UseQueryResult<TvDetailsProps, Error> => {
+export const useTvDetails = (
+  id: string,
+): UseQueryResult<TvDetailsProps, Error> => {
   return useQuery<TvDetailsProps, Error>(["tv", id], () => getTv(id));
 };
 
-export const useActorDetails = (id: string): UseQueryResult<ActorDetailsProps, Error> => {
+export const useActorDetails = (
+  id: string,
+): UseQueryResult<ActorDetailsProps, Error> => {
   return useQuery<ActorDetailsProps, Error>(["actor", id], () => getActor(id));
 };
 
-export const useActorCredits = (id: string): UseQueryResult<ActorCreditsProps, Error> => {
-  return useQuery<ActorCreditsProps, Error>(["actorCredits", id], () => getActorCredits(id));
+export const useActorCredits = (
+  id: string,
+): UseQueryResult<ActorCreditsProps, Error> => {
+  return useQuery<ActorCreditsProps, Error>(["actorCredits", id], () =>
+    getActorCredits(id),
+  );
 };
 ```
 

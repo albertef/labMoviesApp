@@ -7,6 +7,8 @@ import {
   TvDetailsProps,
   ActorDetailsProps,
   ActorCreditsProps,
+  MovieCreditsProps,
+  TvCreditsProps,
 } from "../types/movieAppTypes";
 
 export const getMovies = (): Promise<DiscoverMovieOverviewProps[]> => {
@@ -81,6 +83,16 @@ export const getMovieReviews = (id: string | number) => {
     });
 };
 
+export const getMovieCredits = (
+  id: string | number,
+): Promise<MovieCreditsProps> => {
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}`,
+  )
+    .then((res) => res.json())
+    .then((credits) => credits as MovieCreditsProps);
+};
+
 export const getTvSeries = (): Promise<DiscoverTvOverviewProps[]> => {
   return fetch(
     `https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1`,
@@ -99,6 +111,14 @@ export const getTv = (id: string): Promise<TvDetailsProps> => {
   )
     .then((res) => res.json())
     .then((tv) => tv as TvDetailsProps);
+};
+
+export const getTvCredits = (id: string | number): Promise<TvCreditsProps> => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}/credits?api_key=${import.meta.env.VITE_TMDB_KEY}`,
+  )
+    .then((res) => res.json())
+    .then((credits) => credits as TvCreditsProps);
 };
 
 export const getActor = (id: string): Promise<ActorDetailsProps> => {

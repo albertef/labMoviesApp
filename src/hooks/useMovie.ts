@@ -5,6 +5,8 @@ import {
   getTv,
   getActor,
   getActorCredits,
+  getMovieCredits,
+  getTvCredits,
 } from "../api/tmdb-api";
 import {
   MovieDetailsProps,
@@ -12,6 +14,8 @@ import {
   TvDetailsProps,
   ActorDetailsProps,
   ActorCreditsProps,
+  MovieCreditsProps,
+  TvCreditsProps,
 } from "../types/movieAppTypes";
 
 const useMovie = (id: string): UseQueryResult<MovieDetailsProps, Error> => {
@@ -49,6 +53,30 @@ export const useActorCredits = (
   return useQuery<ActorCreditsProps, Error>(
     ["actor-credits", id],
     () => getActorCredits(id),
+    {
+      enabled: Boolean(id),
+    },
+  );
+};
+
+export const useMovieCredits = (
+  id: string,
+): UseQueryResult<MovieCreditsProps, Error> => {
+  return useQuery<MovieCreditsProps, Error>(
+    ["movie-credits", id],
+    () => getMovieCredits(id),
+    {
+      enabled: Boolean(id),
+    },
+  );
+};
+
+export const useTvCredits = (
+  id: string,
+): UseQueryResult<TvCreditsProps, Error> => {
+  return useQuery<TvCreditsProps, Error>(
+    ["tv-credits", id],
+    () => getTvCredits(id),
     {
       enabled: Boolean(id),
     },

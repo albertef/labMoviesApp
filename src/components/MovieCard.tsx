@@ -20,6 +20,7 @@ interface MovieCardProps {
   movie: DiscoverMovieOverviewProps;
   selectFavourite?: (movieId: number) => void;
   renderActions?: (movie: DiscoverMovieOverviewProps) => ReactNode;
+  linkPath?: (movie: DiscoverMovieOverviewProps) => string;
 }
 
 const styles = {
@@ -34,6 +35,7 @@ const MovieCard = ({
   movie,
   selectFavourite,
   renderActions,
+  linkPath,
 }: MovieCardProps) => {
   const handleAddToFavourite = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -90,7 +92,7 @@ const MovieCard = ({
             <FavoriteIcon color="primary" fontSize="large" />
           </IconButton>
         )}
-        <Link to={`/movies/${movie.id}`}>
+        <Link to={linkPath ? linkPath(movie) : `/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
           </Button>

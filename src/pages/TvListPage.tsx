@@ -31,6 +31,7 @@ const TvListPage = () => {
         <MovieList
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           movies={(adaptedTvSeries as any) || []}
+          linkPath={(movie) => `/tv/${movie.id}`}
         />
       </Grid>
     </Grid>
