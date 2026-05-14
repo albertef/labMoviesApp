@@ -3,6 +3,10 @@ type TmdbMovieRecord = Record<string, unknown>;
 import {
   DiscoverMovieOverviewProps,
   MovieDetailsProps,
+  DiscoverTvOverviewProps,
+  TvDetailsProps,
+  ActorDetailsProps,
+  ActorCreditsProps,
 } from "../types/movieAppTypes";
 
 export const getMovies = (): Promise<DiscoverMovieOverviewProps[]> => {
@@ -75,4 +79,40 @@ export const getMovieReviews = (id: string | number) => {
       // console.log(json.results);
       return json.results;
     });
+};
+
+export const getTvSeries = (): Promise<DiscoverTvOverviewProps[]> => {
+  return fetch(
+    `https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1`,
+  )
+    .then((res) => res.json())
+    .then(
+      (json) =>
+        (json as { results: TmdbMovieRecord[] })
+          .results as DiscoverTvOverviewProps[],
+    );
+};
+
+export const getTv = (id: string): Promise<TvDetailsProps> => {
+  return fetch(
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`,
+  )
+    .then((res) => res.json())
+    .then((tv) => tv as TvDetailsProps);
+};
+
+export const getActor = (id: string): Promise<ActorDetailsProps> => {
+  return fetch(
+    `https://api.themoviedb.org/3/person/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`,
+  )
+    .then((res) => res.json())
+    .then((actor) => actor as ActorDetailsProps);
+};
+
+export const getActorCredits = (id: string): Promise<ActorCreditsProps> => {
+  return fetch(
+    `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${import.meta.env.VITE_TMDB_KEY}`,
+  )
+    .then((res) => res.json())
+    .then((credits) => credits as ActorCreditsProps);
 };

@@ -89,6 +89,7 @@ const MovieDetails = (movie: MovieDetailsProps) => {
         />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>
+
       <Fab
         color="secondary"
         variant="extended"

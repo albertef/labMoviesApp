@@ -44,7 +44,7 @@
 
 ## Tasks
 
-### [ ] 1.0 Entity Expansion: TV Series & Actors Views
+### [~] 1.0 Entity Expansion: TV Series & Actors Views
 
 Add list and detail pages for TV Series and Actors, with hyperlinking from movie cast lists.
 
@@ -58,14 +58,14 @@ Add list and detail pages for TV Series and Actors, with hyperlinking from movie
 
 #### 1.0 Tasks
 
-- [ ] 1.1 Extend `src/api/tmdb-api.ts` with fetcher functions for TV series list, TV series details, actor details, and actor credits/filmography
+- [x] 1.1 Extend `src/api/tmdb-api.ts` with fetcher functions for TV series list, TV series details, actor details, and actor credits/filmography
 - [ ] 1.2 Add custom hooks `useTvList()`, `useTvDetails()`, and `useActorDetails()` to `src/hooks/useMovie.ts` using react-query
-- [ ] 1.3 Create `src/pages/TvListPage.tsx` using existing `TemplateMovieListPage` pattern with TV series data
-- [ ] 1.4 Create `src/pages/ActorDetailsPage.tsx` displaying actor bio (name, birthday, biography, profile image) and filmography list
-- [ ] 1.5 Create `src/components/ActorCard.tsx` for displaying actor information in lists
-- [ ] 1.6 Add clickable actor links in `src/components/MovieDetails.tsx` that navigate to `/actor/:id` using React Router
-- [ ] 1.7 Add routes `/tv` and `/actor/:id` to `src/index.tsx` pointing to new pages
-- [ ] 1.8 Create unit tests in `TvListPage.test.tsx` and `ActorDetailsPage.test.tsx` verifying data fetch and render
+- [x] 1.3 Create `src/pages/TvListPage.tsx` using existing `TemplateMovieListPage` pattern with TV series data
+- [x] 1.4 Create `src/pages/ActorDetailsPage.tsx` displaying actor bio (name, birthday, biography, profile image) and filmography list
+- [x] 1.5 Create `src/components/ActorCard.tsx` for displaying actor information in lists
+- [x] 1.6 Add clickable actor links in `src/components/MovieDetails.tsx` that navigate to `/actor/:id` using React Router
+- [x] 1.7 Add routes `/tv` and `/actor/:id` to `src/index.tsx` pointing to new pages
+- [x] 1.8 Create unit tests in `TvListPage.test.tsx` and `ActorDetailsPage.test.tsx` verifying data fetch and render
 - [ ] 1.9 Run `npm run build` and `npm run lint` to confirm no breaking changes
 
 ### [ ] 2.0 Advanced Browsing: Multi-Criteria Search & Pagination

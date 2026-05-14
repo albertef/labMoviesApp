@@ -64,6 +64,27 @@ export type MovieReviewsProps =
 
 export type Review = NonNullable<MovieReviewsProps["results"]>[number];
 
+// Type for the API response when discovering TV series
+export type DiscoverTvProps =
+  paths["/3/discover/tv"]["get"]["responses"][200]["content"]["application/json"];
+
+// Type for a single TV series object from the discover TV response
+export type DiscoverTvOverviewProps = NonNullable<
+  DiscoverTvProps["results"]
+>[number];
+
+// Type for the API response when fetching detailed TV series information
+export type TvDetailsProps =
+  paths["/3/tv/{series_id}"]["get"]["responses"][200]["content"]["application/json"];
+
+// Type for the API response when fetching actor/person details
+export type ActorDetailsProps =
+  paths["/3/person/{person_id}"]["get"]["responses"][200]["content"]["application/json"];
+
+// Type for the API response when fetching actor's movie credits
+export type ActorCreditsProps =
+  paths["/3/person/{person_id}/movie_credits"]["get"]["responses"][200]["content"]["application/json"];
+
 export type LocalReview = Review & {
   movieId: number;
   rating: number;
