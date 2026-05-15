@@ -27,7 +27,7 @@ const Header = (headerProps: HeaderProps) => {
         <ArrowBackIcon color="primary" fontSize="large" />
       </IconButton>
 
-      <Typography variant="h4" component="h3">
+      <Typography variant="h5" component="h5" color="primary">
         {title}
       </Typography>
       <IconButton aria-label="go forward">

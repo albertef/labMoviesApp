@@ -4,6 +4,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Alert from "@mui/material/Alert";
 import { useAuthContext } from "../contexts/useAuthContext";
 
 const LoginPage = () => {
@@ -27,35 +29,59 @@ const LoginPage = () => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ p: 2, maxWidth: 480 }}>
-      <Typography variant="h5" gutterBottom>
-        Sign In
-      </Typography>
-      <TextField
-        label="Username"
-        fullWidth
-        margin="normal"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <TextField
-        label="Password"
-        type="password"
-        fullWidth
-        margin="normal"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      {error && (
-        <Typography color="error" variant="body2">
-          {error}
-        </Typography>
-      )}
-      <Box sx={{ mt: 2 }}>
-        <Button variant="contained" type="submit">
+    <Box
+      sx={{
+        minHeight: "calc(100vh - 64px)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        px: 2,
+        py: 4,
+        backgroundColor: "background.default",
+      }}
+    >
+      <Paper sx={{ width: "100%", maxWidth: 440, p: 4, borderRadius: 3 }}>
+        <Typography variant="h4" gutterBottom align="center">
           Sign In
-        </Button>
-      </Box>
+        </Typography>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          align="center"
+          sx={{ mb: 3 }}
+        >
+          Sign in to access fantasy movies and save your creations.
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit}>
+          <TextField
+            label="Username"
+            fullWidth
+            margin="normal"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
+          />
+          <TextField
+            label="Password"
+            type="password"
+            fullWidth
+            margin="normal"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+          />
+          {error && (
+            <Alert severity="error" sx={{ mt: 2 }}>
+              {error}
+            </Alert>
+          )}
+          <Box sx={{ mt: 3 }}>
+            <Button fullWidth variant="contained" type="submit">
+              Sign In
+            </Button>
+          </Box>
+        </Box>
+      </Paper>
     </Box>
   );
 };

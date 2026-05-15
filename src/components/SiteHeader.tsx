@@ -131,7 +131,7 @@ const SiteHeader = () => {
               ))}
               {auth.user && (
                 <Typography variant="body2" sx={{ ml: 2, mr: 1 }}>
-                  {auth.user.username || auth.user.email || auth.user.name}
+                  {auth.user.email || auth.user.username || auth.user.name}
                 </Typography>
               )}
               <Button color="inherit" onClick={handleAuthAction}>

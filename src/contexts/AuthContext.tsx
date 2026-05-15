@@ -10,6 +10,46 @@ interface AuthContextValue {
   isAuthenticated: boolean;
 }
 
+function decodeJwtPayload(token: string): Record<string, unknown> | null {
+  try {
+    const [, payload] = token.split(".");
+    if (!payload) return null;
+    const decoded = atob(payload.replace(/-/g, "+").replace(/_/g, "/"));
+    return JSON.parse(
+      decodeURIComponent(
+        decoded
+          .split("")
+          .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
+          .join(""),
+      ),
+    );
+  } catch {
+    return null;
+  }
+}
+
+function buildUserFromToken(token: string): AuthUser | null {
+  const payload = decodeJwtPayload(token);
+  if (!payload) return null;
+
+  return {
+    id:
+      typeof payload.sub === "string"
+        ? payload.sub
+        : typeof payload.userId === "string"
+          ? payload.userId
+          : "me",
+    email: typeof payload.email === "string" ? payload.email : undefined,
+    username:
+      typeof payload.username === "string"
+        ? payload.username
+        : typeof payload.preferred_username === "string"
+          ? payload.preferred_username
+          : undefined,
+    name: typeof payload.name === "string" ? payload.name : undefined,
+  };
+}
+
 export const AuthContext = createContext<AuthContextValue | undefined>(
   undefined,
 );
@@ -25,13 +65,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   );
   const [user, setUser] = useState<AuthUser | null>(() => {
     const stored = localStorage.getItem(USER_KEY);
-    return stored ? JSON.parse(stored) : null;
+    if (stored) {
+      try {
+        return JSON.parse(stored) as AuthUser;
+      } catch (error) {
+        localStorage.removeItem(USER_KEY);
+      }
+    }
+
+    const currentToken = localStorage.getItem(TOKEN_KEY);
+    if (currentToken) {
+      const decodedUser = buildUserFromToken(currentToken);
+      if (decodedUser) {
+        localStorage.setItem(USER_KEY, JSON.stringify(decodedUser));
+        return decodedUser;
+      }
+    }
+
+    return null;
   });
 
   useEffect(() => {
     if (token && !user) {
-      // Fallback placeholder if we have a token but no user data.
-      setUser({ id: "me", email: "user@example.com" });
+      const decodedUser = buildUserFromToken(token);
+      if (decodedUser) {
+        setUser(decodedUser);
+        localStorage.setItem(USER_KEY, JSON.stringify(decodedUser));
+      }
     }
   }, [token, user]);
 
@@ -39,8 +99,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const resp = await backend.login({ username, password });
     setToken(resp.token);
     localStorage.setItem(TOKEN_KEY, resp.token);
-    setUser(resp.user);
-    localStorage.setItem(USER_KEY, JSON.stringify(resp.user));
+
+    const decodedUser = buildUserFromToken(resp.token);
+    const effectiveUser = {
+      ...decodedUser,
+      ...resp.user,
+    } as AuthUser;
+
+    setUser(effectiveUser);
+    localStorage.setItem(USER_KEY, JSON.stringify(effectiveUser));
   };
 
   const logout = () => {
