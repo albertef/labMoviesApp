@@ -49,11 +49,11 @@ const MovieDetails = (movie: MovieDetailsProps & { cast?: CastMember[] }) => {
 
   return (
     <>
-      <Typography variant="h5" component="h3">
+      <Typography variant="h6" component="h3" gutterBottom color="primary">
         Overview
       </Typography>
 
-      <Typography variant="h6" component="p">
+      <Typography variant="body2" component="p" marginBottom={4}>
         {movie.overview}
       </Typography>
 
@@ -65,7 +65,11 @@ const MovieDetails = (movie: MovieDetailsProps & { cast?: CastMember[] }) => {
           <Grid container spacing={2}>
             {movie.cast.slice(0, 10).map((actor: CastMember) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={actor.id}>
-                <Card>
+                <Card
+                  to={`/actor/${actor.id}`}
+                  component={Link}
+                  sx={{ textDecoration: "none" }}
+                >
                   <CardMedia
                     component="img"
                     height="200"
@@ -79,8 +83,6 @@ const MovieDetails = (movie: MovieDetailsProps & { cast?: CastMember[] }) => {
                   <CardContent>
                     <Typography
                       variant="subtitle1"
-                      component={Link}
-                      to={`/actor/${actor.id}`}
                       sx={{ textDecoration: "none", color: "inherit" }}
                     >
                       {actor.name}

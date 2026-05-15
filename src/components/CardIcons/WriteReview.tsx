@@ -9,7 +9,7 @@ interface WriteReviewProps {
 const WriteReview = ({ movie }: WriteReviewProps) => {
   return (
     <Link to={`/reviews/${movie.id}`} style={{ textDecoration: "none" }}>
-      <Button variant="outlined" size="medium" color="secondary">
+      <Button variant="contained" size="small" color="primary">
         Write Review
       </Button>
     </Link>

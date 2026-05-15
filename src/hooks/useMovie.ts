@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from "react-query";
+import { useQuery, UseQueryResult, UseQueryOptions } from "react-query";
 import {
   getMovie,
   getTvSeries,
@@ -7,15 +7,19 @@ import {
   getActorCredits,
   getMovieCredits,
   getTvCredits,
+  getMovies,
+  getUpcomingMovies,
 } from "../api/tmdb-api";
 import {
   MovieDetailsProps,
-  DiscoverTvOverviewProps,
+  DiscoverTvProps,
   TvDetailsProps,
   ActorDetailsProps,
   ActorCreditsProps,
   MovieCreditsProps,
   TvCreditsProps,
+  DiscoverMoviesProps,
+  SearchFilters,
 } from "../types/movieAppTypes";
 
 const useMovie = (id: string): UseQueryResult<MovieDetailsProps, Error> => {
@@ -24,11 +28,64 @@ const useMovie = (id: string): UseQueryResult<MovieDetailsProps, Error> => {
   });
 };
 
-export const useTvList = (): UseQueryResult<
-  DiscoverTvOverviewProps[],
-  Error
-> => {
-  return useQuery<DiscoverTvOverviewProps[], Error>(["tv-series"], getTvSeries);
+export const useMovieList = (
+  page: number,
+  filters: SearchFilters = {},
+  options?: UseQueryOptions<DiscoverMoviesProps, Error>,
+): UseQueryResult<DiscoverMoviesProps, Error> => {
+  return useQuery<DiscoverMoviesProps, Error>(
+    ["movies", page, filters],
+    () =>
+      getMovies({
+        page,
+        genre: filters.genre,
+        year: filters.year,
+        minRating: filters.rating,
+        sortBy: filters.sortBy,
+        originalLanguage: filters.originalLanguage,
+      }),
+    {
+      keepPreviousData: true,
+      ...options,
+    },
+  );
+};
+
+export const useUpcomingMovies = (
+  page = 1,
+  options?: UseQueryOptions<DiscoverMoviesProps, Error>,
+): UseQueryResult<DiscoverMoviesProps, Error> => {
+  return useQuery<DiscoverMoviesProps, Error>(
+    ["upcoming-movies", page],
+    () => getUpcomingMovies({ page }),
+    {
+      keepPreviousData: true,
+      ...options,
+    },
+  );
+};
+
+export const useTvList = (
+  page = 1,
+  filters: SearchFilters = {},
+  options?: UseQueryOptions<DiscoverTvProps, Error>,
+): UseQueryResult<DiscoverTvProps, Error> => {
+  return useQuery<DiscoverTvProps, Error>(
+    ["tv-series", page, filters],
+    () =>
+      getTvSeries({
+        page,
+        genre: filters.genre,
+        year: filters.year,
+        minRating: filters.rating,
+        sortBy: filters.sortBy,
+        originalLanguage: filters.originalLanguage,
+      }),
+    {
+      keepPreviousData: true,
+      ...options,
+    },
+  );
 };
 
 export const useTvDetails = (

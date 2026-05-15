@@ -11,6 +11,7 @@ import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import MovieFilterIcon from "@mui/icons-material/MovieFilter";
 
 const styles = {
   title: {
@@ -32,7 +33,7 @@ const SiteHeader = () => {
     { label: "Upcoming", path: "/movies/upcoming" },
     { label: "Favorites", path: "/movies/favourites" },
     { label: "TV", path: "/tv" },
-    { label: "Option 4", path: "/" },
+    { label: "Search", path: "/search" },
   ];
 
   const handleMenuSelect = (pageURL: string) => {
@@ -45,13 +46,14 @@ const SiteHeader = () => {
 
   return (
     <>
-      <AppBar position="fixed" elevation={0} color="primary">
+      <AppBar position="fixed" elevation={0} color="warning">
         <Toolbar>
-          <Typography variant="h4" sx={styles.title}>
-            TMDB Client
+          <MovieFilterIcon sx={{ mr: 1 }} />
+          <Typography variant="h5" sx={styles.title}>
+            MOVIE APP
           </Typography>
           <Typography variant="h6" sx={styles.title}>
-            All you ever wanted to know about Movies!
+            All about Movies!
           </Typography>
           {isMobile ? (
             <>

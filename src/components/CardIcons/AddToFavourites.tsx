@@ -1,5 +1,5 @@
 import IconButton from "@mui/material/IconButton";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { DiscoverMovieOverviewProps } from "../../types/movieAppTypes";
 
 interface AddToFavouritesProps {
@@ -18,7 +18,7 @@ const AddToFavourites = ({ movie, onAdd }: AddToFavouritesProps) => {
     >
       <FavoriteIcon
         color={movie.favourite ? "error" : "primary"}
-        fontSize="large"
+        fontSize="medium"
       />
     </IconButton>
   );

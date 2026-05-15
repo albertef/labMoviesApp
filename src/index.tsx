@@ -44,6 +44,7 @@ const App = () => {
             <Route path="/tv" element={<TvListPage />} />
             <Route path="/tv/:id" element={<TvDetailsPage />} />
             <Route path="/actor/:id" element={<ActorDetailsPage />} />
+            <Route path="/search" element={<HomePage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

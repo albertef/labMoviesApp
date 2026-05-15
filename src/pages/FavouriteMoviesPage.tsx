@@ -12,7 +12,8 @@ const FavouriteMoviesPage = () => {
       movies={favourites}
       renderActions={(movie) => (
         <>
-          <RemoveFromFavourites movie={movie} onRemove={removeFavourite} />
+          <RemoveFromFavourites movie={movie} onRemove={removeFavourite} />{" "}
+          &nbsp;
           <WriteReview movie={movie} />
         </>
       )}

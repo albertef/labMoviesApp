@@ -1,9 +1,9 @@
 type TmdbMovieRecord = Record<string, unknown>;
 
 import {
-  DiscoverMovieOverviewProps,
   MovieDetailsProps,
-  DiscoverTvOverviewProps,
+  DiscoverMoviesProps,
+  DiscoverTvProps,
   TvDetailsProps,
   ActorDetailsProps,
   ActorCreditsProps,
@@ -11,32 +11,59 @@ import {
   TvCreditsProps,
 } from "../types/movieAppTypes";
 
-export const getMovies = (): Promise<DiscoverMovieOverviewProps[]> => {
+export const getMovies = ({
+  page = 1,
+  genre,
+  year,
+  minRating,
+  sortBy,
+  originalLanguage,
+}: {
+  page?: number;
+  genre?: number;
+  year?: number;
+  minRating?: number;
+  sortBy?: string;
+  originalLanguage?: string;
+} = {}): Promise<DiscoverMoviesProps> => {
+  const params = new URLSearchParams({
+    api_key: import.meta.env.VITE_TMDB_KEY,
+    language: "en-US",
+    include_adult: "false",
+    page: String(page),
+  });
+
+  if (genre) params.append("with_genres", String(genre));
+  if (year) params.append("primary_release_year", String(year));
+  if (minRating) params.append("vote_average.gte", String(minRating));
+  if (sortBy) params.append("sort_by", sortBy);
+  if (originalLanguage)
+    params.append("with_original_language", originalLanguage);
+
   return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1`,
+    `https://api.themoviedb.org/3/discover/movie?${params.toString()}`,
   )
     .then((res) => res.json())
-    .then(
-      (json) =>
-        (json as { results: TmdbMovieRecord[] }).results.map((movie) => ({
-          ...(movie as TmdbMovieRecord),
-          favourite: false,
-        })) as DiscoverMovieOverviewProps[],
-    );
+    .then((json) => json as DiscoverMoviesProps);
 };
 
-export const getUpcomingMovies = (): Promise<DiscoverMovieOverviewProps[]> => {
+export const getUpcomingMovies = ({
+  page = 1,
+}: {
+  page?: number;
+} = {}): Promise<DiscoverMoviesProps> => {
+  const params = new URLSearchParams({
+    api_key: import.meta.env.VITE_TMDB_KEY,
+    language: "en-US",
+    include_adult: "false",
+    page: String(page),
+  });
+
   return fetch(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1`,
+    `https://api.themoviedb.org/3/movie/upcoming?${params.toString()}`,
   )
     .then((res) => res.json())
-    .then(
-      (json) =>
-        (json as { results: TmdbMovieRecord[] }).results.map((movie) => ({
-          ...(movie as TmdbMovieRecord),
-          favourite: false,
-        })) as DiscoverMovieOverviewProps[],
-    );
+    .then((json) => json as DiscoverMoviesProps);
 };
 
 export const getMovie = (id: string): Promise<MovieDetailsProps> => {
@@ -93,16 +120,38 @@ export const getMovieCredits = (
     .then((credits) => credits as MovieCreditsProps);
 };
 
-export const getTvSeries = (): Promise<DiscoverTvOverviewProps[]> => {
-  return fetch(
-    `https://api.themoviedb.org/3/discover/tv?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1`,
-  )
+export const getTvSeries = ({
+  page = 1,
+  genre,
+  year,
+  minRating,
+  sortBy,
+  originalLanguage,
+}: {
+  page?: number;
+  genre?: number;
+  year?: number;
+  minRating?: number;
+  sortBy?: string;
+  originalLanguage?: string;
+} = {}): Promise<DiscoverTvProps> => {
+  const params = new URLSearchParams({
+    api_key: import.meta.env.VITE_TMDB_KEY,
+    language: "en-US",
+    include_adult: "false",
+    page: String(page),
+  });
+
+  if (genre) params.append("with_genres", String(genre));
+  if (year) params.append("first_air_date_year", String(year));
+  if (minRating) params.append("vote_average.gte", String(minRating));
+  if (sortBy) params.append("sort_by", sortBy);
+  if (originalLanguage)
+    params.append("with_original_language", originalLanguage);
+
+  return fetch(`https://api.themoviedb.org/3/discover/tv?${params.toString()}`)
     .then((res) => res.json())
-    .then(
-      (json) =>
-        (json as { results: TmdbMovieRecord[] })
-          .results as DiscoverTvOverviewProps[],
-    );
+    .then((json) => json as DiscoverTvProps);
 };
 
 export const getTv = (id: string): Promise<TvDetailsProps> => {

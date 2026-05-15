@@ -55,8 +55,17 @@ export type MoviePageProps = {
 
 export type FilterOption = "title" | "genre";
 
+export type SearchFilters = {
+  genre?: number;
+  year?: number;
+  rating?: number;
+  sortBy?: string;
+  originalLanguage?: string;
+};
+
 export interface MovieListPageTemplateProps extends BaseMovieListProps {
   title: string;
+  linkPath?: (movie: DiscoverMovieOverviewProps) => string;
 }
 
 export type MovieReviewsProps =

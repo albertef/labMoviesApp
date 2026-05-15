@@ -25,10 +25,29 @@ interface MovieCardProps {
 
 const styles = {
   card: { maxWidth: 345 },
-  media: { height: 500 },
+  media: { height: 350 },
   avatar: {
     backgroundColor: "rgb(255, 0, 0)",
+    width: 21,
+    height: 20,
   },
+  cardHeader: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    boxSizing: "border-box",
+  },
+  movieTitle: {
+    maxHeight: 50,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    width: "100%",
+    whiteSpace: "nowrap",
+    boxSizing: "border-box",
+    fontSize: "1.1rem",
+  },
+  cardActions: { display: "flex", justifyContent: "space-between" },
 };
 
 const MovieCard = ({
@@ -44,15 +63,21 @@ const MovieCard = ({
   return (
     <Card sx={styles.card}>
       <CardHeader
+        sx={styles.cardHeader}
         avatar={
           movie.favourite ? (
             <Avatar sx={styles.avatar}>
-              <FavoriteIcon />
+              <FavoriteIcon sx={{ fontSize: 15 }} />
             </Avatar>
           ) : null
         }
         title={
-          <Typography variant="h5" component="p">
+          <Typography
+            variant="h5"
+            component="p"
+            sx={styles.movieTitle}
+            title={movie.title}
+          >
             {movie.title}{" "}
           </Typography>
         }
@@ -68,20 +93,34 @@ const MovieCard = ({
       <CardContent>
         <Grid container>
           <Grid item xs={6}>
-            <Typography variant="h6" component="p">
-              <CalendarIcon fontSize="small" />
+            <Typography
+              variant="body1"
+              component="p"
+              sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+              }}
+            >
+              <CalendarIcon fontSize="small" /> &nbsp;
               {movie.release_date}
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="h6" component="p">
+            <Typography
+              variant="body1"
+              component="p"
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
               <StarRateIcon fontSize="small" />
               {"  "} {movie.vote_average}{" "}
             </Typography>
           </Grid>
         </Grid>
       </CardContent>
-      <CardActions disableSpacing>
+      <CardActions disableSpacing sx={styles.cardActions}>
         {renderActions ? (
           renderActions(movie)
         ) : (
@@ -89,12 +128,12 @@ const MovieCard = ({
             aria-label="add to favourites"
             onClick={handleAddToFavourite}
           >
-            <FavoriteIcon color="primary" fontSize="large" />
+            <FavoriteIcon color="primary" fontSize="medium" />
           </IconButton>
         )}
         <Link to={linkPath ? linkPath(movie) : `/movies/${movie.id}`}>
-          <Button variant="outlined" size="medium" color="primary">
-            More Info ...
+          <Button variant="contained" size="small" color="success">
+            More Info
           </Button>
         </Link>
       </CardActions>
