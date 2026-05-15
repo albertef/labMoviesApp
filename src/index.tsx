@@ -7,6 +7,8 @@ import AddMovieReviewPage from "./pages/AddMovieReviewPage";
 import TvListPage from "./pages/TvListPage";
 import ActorDetailsPage from "./pages/ActorDetailsPage";
 import TvDetailsPage from "./pages/TvDetailsPage";
+import FantasyMoviePage from "./pages/FantasyMoviePage";
+import FantasyMovieCreatePage from "./pages/FantasyMovieCreatePage";
 import SiteHeader from "./components/SiteHeader";
 import UpcomingMoviesPage from "./pages/UpcomingMovies";
 import { QueryClientProvider, QueryClient } from "react-query";
@@ -44,6 +46,11 @@ const App = () => {
             <Route path="/tv" element={<TvListPage />} />
             <Route path="/tv/:id" element={<TvDetailsPage />} />
             <Route path="/actor/:id" element={<ActorDetailsPage />} />
+            <Route path="/fantasy-movie" element={<FantasyMoviePage />} />
+            <Route
+              path="/fantasy-movie/create"
+              element={<FantasyMovieCreatePage />}
+            />
             <Route path="/search" element={<HomePage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={<Navigate to="/" />} />

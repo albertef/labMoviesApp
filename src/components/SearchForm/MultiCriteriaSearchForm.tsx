@@ -48,7 +48,6 @@ const MultiCriteriaSearchForm = ({
 
   const handleReset = () => {
     reset(initialValues);
-    onSearch(initialValues);
   };
 
   return (

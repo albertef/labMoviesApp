@@ -111,3 +111,22 @@ export type LocalReview = Review & {
   movieId: number;
   rating: number;
 };
+
+export type FantasyCastMember = {
+  id: string;
+  name: string;
+  role: string;
+};
+
+export type FantasyMovie = {
+  id: string;
+  title: string;
+  overview: string;
+  genres: string[];
+  releaseDate: string;
+  runtime: number;
+  productionCompany: string;
+  cast: FantasyCastMember[];
+  posterFileName?: string;
+  posterUrl?: string;
+};

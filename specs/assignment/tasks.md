@@ -123,13 +123,14 @@ Integrate sign-in functionality and protect routes requiring authentication (fan
 
 ### [ ] 4.0 Fantasy Movie Creation: Advanced Form with Cast & Poster Upload
 
-Build a multi-section form allowing users to create fantasy movies with detailed fields, dynamic cast entry, and poster image upload.
+Build a fantasy movie feature with a listing page, a dedicated creation form, and cast selection that uses existing names while allowing new entries.
 
 #### 4.0 Proof Artifact(s)
 
-- Screenshot: Fantasy movie form showing Basic Details (title, overview, release date, runtime) section demonstrates form structure
-- Screenshot: Production Info and Cast List sections with "Add Cast Member" button demonstrating dynamic field arrays
-- Screenshot: Submitted fantasy movie appears in a "My Fantasy Movies" list demonstrating form submission and display
+- Screenshot: Fantasy movie listing page with card grid, header, and "Create Fantasy Movie" button demonstrates the listing UI
+- Screenshot: Fantasy movie creation form showing Basic Details, Production Info, cast selection, and poster upload demonstrates form structure
+- Screenshot: Created fantasy movie appears on the fantasy listing page after save demonstrates navigation and state flow
+- Screenshot: Cast selection supports existing cast names and new free-text entries demonstrates cast input behavior
 - Screenshot: Form validation error (e.g., "Title is required") displays below input field demonstrates validation feedback
 - Test: `FantasyMovieForm` unit test passes for required field validation demonstrates form handling
 - CLI: `npm run build` succeeds and lint passes
@@ -142,12 +143,12 @@ Build a multi-section form allowing users to create fantasy movies with detailed
 - [ ] 4.4 Create `src/components/FantasyMovieForm/FantasyMovieForm.tsx` with three sections:
   - Basic Details: title, overview, genres (checkboxes), release date (date picker)
   - Production Info: runtime (number), production company (text)
-  - Cast List: dynamic array using `CastFieldArray` component
+  - Cast Selection: existing actor name autocomplete plus free-text new names, and role input
 - [ ] 4.5 Integrate `ImageUpload` into fantasy movie form for poster selection
 - [ ] 4.6 Add form-level validation for required fields; display inline error messages below inputs
-- [ ] 4.7 Implement form submission handler to construct FormData with all fields including poster file; call `backend-api.ts` POST endpoint
-- [ ] 4.8 Create `src/pages/FantasyMoviePage.tsx` as protected route wrapping the form; show success message after submission and option to create another
-- [ ] 4.9 Create unit tests `FantasyMovieForm.test.tsx` for field validation, cast array manipulation, and submission
+- [ ] 4.7 Implement fantasy movie flow: listing page shows all created movies, button navigates to form page, and form submission returns to listing with the new entry
+- [ ] 4.8 Create `src/pages/FantasyMoviePage.tsx` as the fantasy listing page and `src/pages/FantasyMovieCreatePage.tsx` as the form page
+- [ ] 4.9 Create unit tests `FantasyMovieForm.test.tsx` for field validation, cast selection, and submission
 - [ ] 4.10 Run `npm run build` and `npm run lint`
 
 ### [ ] 5.0 Fullstack Persistence: Reviews & Favorites to DynamoDB
