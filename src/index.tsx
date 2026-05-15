@@ -14,6 +14,9 @@ import UpcomingMoviesPage from "./pages/UpcomingMovies";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { MoviesProvider } from "./contexts/MoviesContext";
+import { AuthProvider } from "./contexts/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LoginPage from "./pages/LoginPage";
 
 // Query client defaults are set for Lab 4 caching behavior:
 // - staleTime keeps data fresh for 6 minutes during navigation
@@ -32,32 +35,46 @@ const queryClient = new QueryClient({
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <MoviesProvider>
-        <BrowserRouter>
-          <SiteHeader />
-          <Routes>
-            <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-            <Route path="/reviews/:id" element={<AddMovieReviewPage />} />
-            <Route
-              path="/movies/favourites"
-              element={<FavouriteMoviesPage />}
-            />
-            <Route path="/movies/:id" element={<MoviePage />} />
-            <Route path="/tv" element={<TvListPage />} />
-            <Route path="/tv/:id" element={<TvDetailsPage />} />
-            <Route path="/actor/:id" element={<ActorDetailsPage />} />
-            <Route path="/fantasy-movie" element={<FantasyMoviePage />} />
-            <Route
-              path="/fantasy-movie/create"
-              element={<FantasyMovieCreatePage />}
-            />
-            <Route path="/search" element={<HomePage />} />
-            <Route path="/" element={<HomePage />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </BrowserRouter>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </MoviesProvider>
+      <AuthProvider>
+        <MoviesProvider>
+          <BrowserRouter>
+            <SiteHeader />
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
+              <Route path="/reviews/:id" element={<AddMovieReviewPage />} />
+              <Route
+                path="/movies/favourites"
+                element={<FavouriteMoviesPage />}
+              />
+              <Route path="/movies/:id" element={<MoviePage />} />
+              <Route path="/tv" element={<TvListPage />} />
+              <Route path="/tv/:id" element={<TvDetailsPage />} />
+              <Route path="/actor/:id" element={<ActorDetailsPage />} />
+              <Route
+                path="/fantasy-movie"
+                element={
+                  <ProtectedRoute>
+                    <FantasyMoviePage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/fantasy-movie/create"
+                element={
+                  <ProtectedRoute>
+                    <FantasyMovieCreatePage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/search" element={<HomePage />} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </BrowserRouter>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </MoviesProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 };

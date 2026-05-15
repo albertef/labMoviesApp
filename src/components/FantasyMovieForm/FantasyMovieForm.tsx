@@ -10,6 +10,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import ImageUpload from "../ImageUpload";
 import CastFieldArray from "../CastFieldArray";
+import { genreOptions, castNameOptions } from "../../data/lookupData";
 
 export type FantasyMovieFormValues = {
   title: string;
@@ -29,28 +30,6 @@ export type FantasyMovieFormValues = {
 interface FantasyMovieFormProps {
   onSubmit: (values: FantasyMovieFormValues) => void | Promise<void>;
 }
-
-const genreOptions = [
-  "Fantasy",
-  "Adventure",
-  "Sci-Fi",
-  "Action",
-  "Drama",
-  "Comedy",
-];
-
-const castNameOptions = [
-  "Robert Downey Jr.",
-  "Scarlett Johansson",
-  "Chris Evans",
-  "Gal Gadot",
-  "Tom Holland",
-  "Zendaya",
-  "Dwayne Johnson",
-  "Emma Stone",
-  "Ryan Reynolds",
-  "Jennifer Lawrence",
-];
 
 const FantasyMovieForm = ({ onSubmit }: FantasyMovieFormProps) => {
   const {

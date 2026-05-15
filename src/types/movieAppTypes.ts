@@ -1,3 +1,20 @@
+export interface AuthUser {
+  id: string;
+  username?: string;
+  email?: string;
+  name?: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: AuthUser;
+}
+
+export interface BackendApiError {
+  message: string;
+  code?: string;
+}
+
 // src/types/tmdb.ts
 
 import { paths } from "./generated/tmdb";

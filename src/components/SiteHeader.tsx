@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import MovieFilterIcon from "@mui/icons-material/MovieFilter";
+import { useAuthContext } from "../contexts/useAuthContext";
 
 const styles = {
   title: {
@@ -28,6 +29,8 @@ const SiteHeader = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
 
+  const auth = useAuthContext();
+
   const menuOptions = [
     { label: "Home", path: "/" },
     { label: "Upcoming", path: "/movies/upcoming" },
@@ -40,6 +43,17 @@ const SiteHeader = () => {
   const handleMenuSelect = (pageURL: string) => {
     navigate(pageURL);
   };
+
+  const handleAuthAction = () => {
+    if (auth.isAuthenticated) {
+      auth.logout();
+      navigate("/");
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const authButtonLabel = auth.isAuthenticated ? "Logout" : "Login";
 
   const handleMenu = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -86,11 +100,22 @@ const SiteHeader = () => {
                 {menuOptions.map((opt) => (
                   <MenuItem
                     key={opt.label}
-                    onClick={() => handleMenuSelect(opt.path)}
+                    onClick={() => {
+                      setAnchorEl(null);
+                      handleMenuSelect(opt.path);
+                    }}
                   >
                     {opt.label}
                   </MenuItem>
                 ))}
+                <MenuItem
+                  onClick={() => {
+                    setAnchorEl(null);
+                    handleAuthAction();
+                  }}
+                >
+                  {authButtonLabel}
+                </MenuItem>
               </Menu>
             </>
           ) : (
@@ -104,6 +129,14 @@ const SiteHeader = () => {
                   {opt.label}
                 </Button>
               ))}
+              {auth.user && (
+                <Typography variant="body2" sx={{ ml: 2, mr: 1 }}>
+                  {auth.user.username || auth.user.email || auth.user.name}
+                </Typography>
+              )}
+              <Button color="inherit" onClick={handleAuthAction}>
+                {authButtonLabel}
+              </Button>
             </>
           )}
         </Toolbar>
